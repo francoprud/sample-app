@@ -29,6 +29,8 @@ group :development, :test do
   gem 'byebug'
   # Speeds up development by keeping your application running in the background
   gem 'spring'
+  # Ruby static code analyzer (Lint)
+  gem 'rubocop'
 end
 
 group :development do
