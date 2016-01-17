@@ -25,6 +25,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Bootstrap sass
 gem 'bootstrap-sass', '~> 3.3.6'
+# Secure hash algorithm
+gem 'bcrypt'
 
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
@@ -33,6 +35,10 @@ group :development, :test do
   gem 'spring'
   # Ruby static code analyzer (Lint)
   gem 'rubocop'
+  # Used for defining and using factories
+  gem 'factory_girl_rails'
+  # Used to fake almost everything
+  gem 'faker'
 end
 
 group :development do
