@@ -40,11 +40,12 @@ describe User do
     end
 
     it 'validates password not to be nil' do
-      expect(FactoryGirl.build(:user, password: nil, password_confirmation: nil).valid?).to be false
+      expect(FactoryGirl.build(:user, password: nil,
+                                      password_confirmation: nil).valid?).to be false
     end
 
     it 'validates password to have minimum length' do
-      invalid_password = "#{'a' * 5}";
+      invalid_password = "#{'a' * 5}"
       expect(FactoryGirl.build(:user, password: invalid_password,
                                       password_confirmation: invalid_password).valid?).to be false
     end
