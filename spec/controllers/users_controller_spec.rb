@@ -24,6 +24,10 @@ describe UsersController do
       it 'creates a new User' do
         expect(User.count).to eq 1
       end
+
+      it 'stores the user_id in the session' do
+        expect(session[:user_id].present?).to be true
+      end
     end
 
     context 'When creating an invalid user' do
@@ -38,6 +42,10 @@ describe UsersController do
 
       it 'do not create a new user' do
         expect(User.count).to eq 0
+      end
+
+      it 'do not stores the user_id in the session' do
+        expect(session[:user_id].present?).to be false
       end
     end
   end
