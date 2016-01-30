@@ -95,6 +95,8 @@ GEM
     pghero (1.2.1)
       activerecord
     powerpack (0.1.1)
+    puma (2.11.1)
+      rack (>= 1.1, < 2.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -204,6 +206,7 @@ DEPENDENCIES
   jquery-rails
   pg
   pghero
+  puma
   rails (= 4.2.5)
   rails_12factor (= 0.0.2)
   rspec-rails (~> 3.0)

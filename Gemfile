@@ -27,6 +27,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-sass', '~> 3.3.6'
 # Secure hash algorithm
 gem 'bcrypt'
+# Webserver
+gem 'puma'
 
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
