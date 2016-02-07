@@ -2,10 +2,21 @@ require 'rails_helper'
 
 describe UsersController do
   describe 'GET #new' do
-    before(:each) { get :new }
+    context 'When no user is logged in' do
+      it 'returns success status' do
+        get :new
+        expect(response).to have_http_status :ok
+      end
+    end
 
-    it 'returns success status' do
-      expect(response).to have_http_status :ok
+    context 'When a user is logged in' do
+      let!(:user) { FactoryGirl.create(:user) }
+
+      it 'redirects to root path' do
+        log_in_as user
+        get :new
+        expect(response).to redirect_to root_path
+      end
     end
   end
 
@@ -29,8 +40,68 @@ describe UsersController do
   end
 
   describe 'POST #create' do
-    context 'When creating a valid user' do
+    context 'When no user is logged in' do
+      context 'and creating a valid user' do
+        before(:each) do
+          post :create, user: {
+            name: 'Example Test',
+            email: 'mail@valid.com',
+            password: 'password',
+            password_confirmation: 'password'
+          }
+        end
+
+
+        it 'creates a new User' do
+          expect(User.count).to eq 1
+        end
+
+        it 'stores the user_id in the session' do
+          expect(session[:user_id].present?).to be true
+        end
+      end
+
+      context 'and creating a user with unpermitted parameters' do
+        before(:each) do
+          post :create, user: {
+            name: 'Example Test',
+            email: 'mail@valid.com',
+            password: 'password',
+            password_confirmation: 'password',
+            admin: true
+          }
+        end
+
+        it 'do not create a new user with admin rights' do
+          expect(User.first.admin?).to be false
+        end
+      end
+
+      context 'and creating an invalid user' do
+        before(:each) do
+          post :create, user: {
+            name: 'Example Test',
+            email: 'mail@invalid',
+            password: '12',
+            password_confirmation: 'ab'
+          }
+        end
+
+        it 'do not create a new user' do
+          expect(User.count).to eq 0
+        end
+
+        it 'do not stores the user_id in the session' do
+          expect(session[:user_id].present?).to be false
+        end
+      end
+    end
+
+    context 'When a user is logged in' do
+      let!(:user) { FactoryGirl.create(:user) }
+
       before(:each) do
+        log_in_as user
         post :create, user: {
           name: 'Example Test',
           email: 'mail@valid.com',
@@ -39,48 +110,8 @@ describe UsersController do
         }
       end
 
-
-      it 'creates a new User' do
-        expect(User.count).to eq 1
-      end
-
-      it 'stores the user_id in the session' do
-        expect(session[:user_id].present?).to be true
-      end
-    end
-
-    context 'When creating a user with unpermitted parameters' do
-      before(:each) do
-        post :create, user: {
-          name: 'Example Test',
-          email: 'mail@valid.com',
-          password: 'password',
-          password_confirmation: 'password',
-          admin: true
-        }
-      end
-
-      it 'do not create a new user with admin rights' do
-        expect(User.first.admin?).to be false
-      end
-    end
-
-    context 'When creating an invalid user' do
-      before(:each) do
-        post :create, user: {
-          name: 'Example Test',
-          email: 'mail@invalid',
-          password: '12',
-          password_confirmation: 'ab'
-        }
-      end
-
-      it 'do not create a new user' do
-        expect(User.count).to eq 0
-      end
-
-      it 'do not stores the user_id in the session' do
-        expect(session[:user_id].present?).to be false
+      it 'redirects to root path' do
+        expect(response).to redirect_to root_path
       end
     end
   end

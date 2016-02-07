@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :not_logged_in_user, only: [:new, :create]
+
   def new
   end
 
@@ -17,5 +19,15 @@ class SessionsController < ApplicationController
   def destroy
     log_out if logged_in?
     redirect_to root_url
+  end
+
+  private
+
+  # Confirms a not logged-in user
+  def not_logged_in_user
+    if logged_in?
+      flash[:danger] = 'You are already logged in'
+      redirect_to root_url
+    end
   end
 end
