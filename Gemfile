@@ -29,6 +29,13 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bcrypt'
 # Webserver
 gem 'puma'
+# Pagination
+gem 'will_paginate', '~> 3.0.6'
+gem 'bootstrap-will_paginate'
+# Used for defining and using factories (Added in production to generate fake models)
+gem 'factory_girl_rails'
+# Used to fake almost everything (Added in production to generate fake models)
+gem 'faker'
 
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
@@ -37,10 +44,6 @@ group :development, :test do
   gem 'spring'
   # Ruby static code analyzer (Lint)
   gem 'rubocop'
-  # Used for defining and using factories
-  gem 'factory_girl_rails'
-  # Used to fake almost everything
-  gem 'faker'
 end
 
 group :development do

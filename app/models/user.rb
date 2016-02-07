@@ -5,12 +5,15 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  # The has_secured_password includes a separate presence validation that specifically catches nil
+  # passwords ONLY on create, that's why the allow_nil condition is included in the validations of
+  # password for the update method
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true,
                     length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }
 
   before_save :downcase_email
 
