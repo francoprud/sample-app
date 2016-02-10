@@ -43,6 +43,7 @@ describe UsersController do
     context 'When no user is logged in' do
       context 'and creating a valid user' do
         before(:each) do
+          ActionMailer::Base.deliveries.clear # Clear the array of delivers
           post :create, user: {
             name: 'Example Test',
             email: 'mail@valid.com',
@@ -51,13 +52,16 @@ describe UsersController do
           }
         end
 
-
         it 'creates a new User' do
           expect(User.count).to eq 1
         end
 
-        it 'stores the user_id in the session' do
-          expect(session[:user_id].present?).to be true
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
+        end
+
+        it 'sends an email to activate account' do
+          expect(ActionMailer::Base.deliveries.count).to eq 1
         end
       end
 

@@ -14,4 +14,7 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
+
+  # Account Activations endpoints
+  resources :account_activations, only: [:edit]
 end

@@ -24,6 +24,22 @@ describe SessionsController do
     let!(:user) { FactoryGirl.create(:user) }
 
     context 'When no user is logged in' do
+      context 'and tries to log in with a non activated account' do
+        let!(:user_not_activated) { FactoryGirl.create(:user, activated: false) }
+
+        before(:each) do
+          post :create, {
+            email: user_not_activated.email,
+            password: user_not_activated.password,
+            remember_me: '0'
+          }
+        end
+
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
+        end
+      end
+
       context 'and tries to log in with a valid user and not remembering it' do
         before(:each) do
           post :create, {
