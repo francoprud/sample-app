@@ -63,6 +63,10 @@ describe UsersController do
         it 'sends an email to activate account' do
           expect(ActionMailer::Base.deliveries.count).to eq 1
         end
+
+        it 'do not log in a user' do
+          expect(logged_in?).to be false
+        end
       end
 
       context 'and creating a user with unpermitted parameters' do
@@ -95,8 +99,8 @@ describe UsersController do
           expect(User.count).to eq 0
         end
 
-        it 'do not stores the user_id in the session' do
-          expect(session[:user_id].present?).to be false
+        it 'do not log in a user' do
+          expect(logged_in?).to be false
         end
       end
     end
