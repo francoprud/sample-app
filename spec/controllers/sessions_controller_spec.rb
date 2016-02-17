@@ -28,11 +28,9 @@ describe SessionsController do
         let!(:user_not_activated) { FactoryGirl.create(:user, activated: false) }
 
         before(:each) do
-          post :create, {
-            email: user_not_activated.email,
-            password: user_not_activated.password,
-            remember_me: '0'
-          }
+          post :create, email: user_not_activated.email,
+                        password: user_not_activated.password,
+                        remember_me: '0'
         end
 
         it 'redirects to root path' do
@@ -42,11 +40,9 @@ describe SessionsController do
 
       context 'and tries to log in with a valid user and not remembering it' do
         before(:each) do
-          post :create, {
-            email: user.email,
-            password: user.password,
-            remember_me: '0'
-          }
+          post :create, email: user.email,
+                        password: user.password,
+                        remember_me: '0'
         end
 
         it 'log in a user' do
@@ -60,11 +56,9 @@ describe SessionsController do
 
       context 'and tries to log in with a valid user and remembering it' do
         before(:each) do
-          post :create, {
-            email: user.email,
-            password: user.password,
-            remember_me: '1'
-          }
+          post :create, email: user.email,
+                        password: user.password,
+                        remember_me: '1'
         end
 
         it 'log in a user' do
@@ -93,11 +87,9 @@ describe SessionsController do
     context 'When a user is logged in' do
       before(:each) do
         log_in_as user
-        post :create, {
-          email: user.email,
-          password: user.password,
-          remember_me: '0'
-        }
+        post :create, email: user.email,
+                      password: user.password,
+                      remember_me: '0'
       end
 
       it 'redirects to root path' do

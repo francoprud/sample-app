@@ -3,11 +3,13 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy]
   before_action :not_logged_in_user, only: [:new, :create]
+  before_action :activated_user, only: [:show]
 
   PER_PAGE = 15
 
   def index
-    @users = User.paginate(page: params[:page], per_page: PER_PAGE).order('name ASC')
+    @users = User.where(activated: true)
+                 .paginate(page: params[:page], per_page: PER_PAGE).order('name ASC')
   end
 
   def show
@@ -85,5 +87,13 @@ class UsersController < ApplicationController
       flash[:danger] = 'You are already logged in'
       redirect_to root_url
     end
+  end
+
+  # Confirms if user is already activated
+  def activated_user
+    user = User.find(params[:id])
+    return if (user && user.activated?)
+    flash[:danger] = 'User is not already activated'
+    redirect_to root_url
   end
 end

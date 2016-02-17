@@ -166,14 +166,12 @@ describe UsersController do
       context 'and update params are valid' do
         before(:each) do
           log_in_as(user)
-          patch :update, {
-            user: {
-              name: user.name,
-              email: email,
-              password: '',
-              password_confirmation: ''
-            }, id: user
-          }
+          patch :update, user: {
+                          name: user.name,
+                          email: email,
+                          password: '',
+                          password_confirmation: ''
+                        }, id: user
         end
 
         it 'successfully updates the user' do
@@ -184,14 +182,12 @@ describe UsersController do
 
     context 'When no user is logged in' do
       before(:each) do
-        patch :update, {
-          user: {
-            name: user.name,
-            email: email,
-            password: '',
-            password_confirmation: ''
-          }, id: user
-        }
+        patch :update, user: {
+                        name: user.name,
+                        email: email,
+                        password: '',
+                        password_confirmation: ''
+                      }, id: user
       end
 
       it 'redirects to login' do
@@ -239,6 +235,26 @@ describe UsersController do
       it 'redirects to login' do
         delete :destroy, id: user_to_destroy
         expect(response).to redirect_to login_path
+      end
+    end
+  end
+
+  describe '#GET show do' do
+    context 'When user is activated' do
+      let!(:user) { FactoryGirl.create(:user) }
+
+      it 'returns success status' do
+        get :show, id: user.id
+        expect(response).to have_http_status :ok
+      end
+    end
+
+    context 'When user is not activated' do
+      let!(:user) { FactoryGirl.create(:user, activated: false) }
+
+      it 'redirects to root path' do
+        get :show, id: user.id
+        expect(response).to redirect_to root_path
       end
     end
   end

@@ -30,9 +30,8 @@ class SessionsController < ApplicationController
 
   # Confirms a not logged-in user
   def not_logged_in_user
-    if logged_in?
-      flash[:danger] = 'You are already logged in'
-      redirect_to root_url
-    end
+    return unless logged_in?
+    flash[:danger] = 'You are already logged in'
+    redirect_to root_url
   end
 end
