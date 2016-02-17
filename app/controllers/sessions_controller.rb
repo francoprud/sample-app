@@ -12,11 +12,11 @@ class SessionsController < ApplicationController
         params[:remember_me] == '1' ? remember(user) : forget(user)
         redirect_back_or user
       else
-        flash[:warning] = 'Account not activated. Check your email for the activation link.'
+        display_flash(:warning, 'Account not activated. Check your email for the activation link.')
         redirect_to root_url
       end
     else
-      flash.now[:danger] = 'Invalid email/password combination'
+      display_flash(:danger, 'Invalid email/password combination')
       render 'new'
     end
   end
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
   # Confirms a not logged-in user
   def not_logged_in_user
     return unless logged_in?
-    flash[:danger] = 'You are already logged in'
+    display_flash(:danger, 'You are already logged in')
     redirect_to root_url
   end
 end

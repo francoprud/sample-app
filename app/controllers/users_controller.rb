@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where(activated: true)
-                 .paginate(page: params[:page], per_page: PER_PAGE).order('name ASC')
+             .paginate(page: params[:page], per_page: PER_PAGE).order('name ASC')
   end
 
   def show
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      flash[:info] = 'Please check your email to activate your account.'
+      display_flash(:info, 'Please check your email to activate your account.')
       redirect_to root_url
     else
       render 'new'
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = 'Profile updated!'
+      display_flash(:success, 'Profile updated!')
       redirect_to @user
     else
       render 'edit'
@@ -48,9 +48,9 @@ class UsersController < ApplicationController
   def destroy
     if (user = User.find(params[:id]))
       user.destroy
-      flash[:success] = 'User deleted'
+      display_flash(:success, 'User deleted')
     else
-      flash[:danger] = 'User does not exist or is invalid'
+      display_flash(:danger, 'User does not exist or is invalid')
     end
     redirect_to users_url
   end
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
   def logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = 'Please log in.'
+      display_flash(:danger, 'Please log in.')
       redirect_to login_url
     end
   end
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   # Confirms a not logged-in user
   def not_logged_in_user
     if logged_in?
-      flash[:danger] = 'You are already logged in'
+      display_flash(:danger, 'You are already logged in')
       redirect_to root_url
     end
   end
@@ -92,8 +92,8 @@ class UsersController < ApplicationController
   # Confirms if user is already activated
   def activated_user
     user = User.find(params[:id])
-    return if (user && user.activated?)
-    flash[:danger] = 'User is not already activated'
+    return if user && user.activated?
+    display_flash(:danger, 'User is not already activated')
     redirect_to root_url
   end
 end
