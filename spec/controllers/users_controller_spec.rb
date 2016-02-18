@@ -166,12 +166,14 @@ describe UsersController do
       context 'and update params are valid' do
         before(:each) do
           log_in_as(user)
-          patch :update, user: {
-                          name: user.name,
-                          email: email,
-                          password: '',
-                          password_confirmation: ''
-                        }, id: user
+          patch :update,
+                id: user,
+                user: {
+                  name: user.name,
+                  email: email,
+                  password: '',
+                  password_confirmation: ''
+                }
         end
 
         it 'successfully updates the user' do
@@ -182,12 +184,14 @@ describe UsersController do
 
     context 'When no user is logged in' do
       before(:each) do
-        patch :update, user: {
-                        name: user.name,
-                        email: email,
-                        password: '',
-                        password_confirmation: ''
-                      }, id: user
+        patch :update,
+              id: user,
+              user: {
+                name: user.name,
+                email: email,
+                password: '',
+                password_confirmation: ''
+              }
       end
 
       it 'redirects to login' do
