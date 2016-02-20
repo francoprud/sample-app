@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  has_many :microposts, dependent: :destroy
+
   # The has_secured_password includes a separate presence validation that specifically catches nil
   # passwords ONLY on create, that's why the allow_nil condition is included in the validations of
   # password for the update method
@@ -71,6 +73,11 @@ class User < ActiveRecord::Base
   # Returns true if a password reset has expired
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def feed
+    # Micropost.where('user_id = ?', id)
+    microposts
   end
 
   private

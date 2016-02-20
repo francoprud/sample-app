@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :users, except: [:new]
   get 'signup' => 'users#new'
 
+  # Micropost endpoints
+  resources :microposts, only: [:create, :destroy]
+
   # Session endpoints
   get    'login'  => 'sessions#new'
   post   'login'  => 'sessions#create'

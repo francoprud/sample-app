@@ -225,7 +225,7 @@ describe UsersController do
           delete :destroy, id: user_to_destroy
         end
 
-        it 'returns success status' do
+        it 'redirects to user index' do
           expect(response).to redirect_to users_path
         end
 

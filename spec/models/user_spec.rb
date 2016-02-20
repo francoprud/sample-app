@@ -50,4 +50,14 @@ describe User do
                                       password_confirmation: invalid_password).valid?).to be false
     end
   end
+
+  context 'When deleting a valid user' do
+    let!(:user)      { FactoryGirl.create(:user) }
+    let!(:micropost) { FactoryGirl.create(:micropost, user: user) }
+
+    it 'destroys all user microposts' do
+      User.first.destroy
+      expect(Micropost.count).to eq 0
+    end
+  end
 end

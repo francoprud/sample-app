@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
         redirect_to root_url
       end
     else
-      display_flash(:danger, 'Invalid email/password combination')
+      display_flash_now(:danger, 'Invalid email/password combination')
       render 'new'
     end
   end
