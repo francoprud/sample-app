@@ -75,10 +75,9 @@ class UsersController < ApplicationController
 
   # Confirms a not logged-in user
   def not_logged_in_user
-    if logged_in?
-      display_flash(:danger, 'You are already logged in')
-      redirect_to root_url
-    end
+    return unless logged_in?
+    display_flash(:danger, 'You are already logged in')
+    redirect_to root_url
   end
 
   # Confirms if user is already activated
