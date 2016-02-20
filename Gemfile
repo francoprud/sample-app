@@ -36,6 +36,12 @@ gem 'bootstrap-will_paginate'
 gem 'factory_girl_rails'
 # Used to fake almost everything (Added in production to generate fake models)
 gem 'faker'
+# Upload files
+gem 'carrierwave'
+# Manipulaion of images
+gem 'mini_magick'
+# Used for integration with cloud services
+gem 'fog'
 
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console

@@ -16,5 +16,8 @@
 !/log/.keep
 /tmp
 
+# Ignore file uploads in development
+/public/uploads
+
 # Ignore other files
 .byebug_history
