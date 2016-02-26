@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   get 'help'    => 'static_pages#help'
 
   # User endpoints
-  resources :users, except: [:new]
+  resources :users, except: [:new] do
+    member do
+      get :following, :followers
+    end
+  end
+
   get 'signup' => 'users#new'
 
   # Micropost endpoints
@@ -23,4 +28,7 @@ Rails.application.routes.draw do
 
   # Password Reset endpoints
   resources :password_resets, only: [:new, :create, :edit, :update]
+
+  # Relationship endpoints
+  resources :relationships, only: [:create, :destroy]
 end

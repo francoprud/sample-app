@@ -60,4 +60,36 @@ describe User do
       expect(Micropost.count).to eq 0
     end
   end
+
+  context 'When making use of user relationships' do
+    let!(:user)       { FactoryGirl.create(:user) }
+    let!(:other_user) { FactoryGirl.create(:user) }
+
+    context 'When following another user' do
+      before(:each) { user.follow(other_user) }
+
+      it 'follows that other user' do
+        expect(user.following?(other_user)).to be true
+      end
+
+      it 'is followed by user' do
+        expect(other_user.followed_by?(user)).to be true
+      end
+    end
+
+    context 'When unfollowing another user' do
+      before(:each) do
+        user.follow(other_user)
+        user.unfollow(other_user)
+      end
+
+      it 'do not follows that other user' do
+        expect(user.following?(other_user)).to be false
+      end
+
+      it 'is not being followed by user' do
+        expect(other_user.followed_by?(user)).to eq false
+      end
+    end
+  end
 end
